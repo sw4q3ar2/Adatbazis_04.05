@@ -1,0 +1,76 @@
+iskola tábla (2. konyv 1.4.1)
+*****************
+
+SELECT osztaly, nev
+FROM tanulo
+where  left(osztaly, 1) = "1";
+
+// szamot szammal, szoveget szöveggel hasonlitok ossze
+
+SELECT * 
+FROM tanulo 
+// leveszem baloldalról az elsőt
+WHERE left(nev, 1) = "K"
+
+// Ha maszkolok akkor - like
+// ha nem maszkolsz akkor irjal - =
+
+// szamolja a sorokat | count az egyetlen ahol irhatsz (*)-ot
+SELECT count(azon), count(nev), count(*)
+from tanulo
+
+// count - ha nulla soros akkor egy igazi szamszeru 0-at vissza
+
+SELECT SUM(osszeg) as összesen
+from segely
+where honap = 2
+
+//ki kapott segélyt abban a hónapban amelyik honapra jár
+(lekerdezes 9)
+SELECT *
+from segely
+where month(kifiz) = honap 
+
+// dátumkezelés
+SELECT date() as ma, now() as most 
+
+//mennyien kaptak idén segélyt
+SELECT count(*)
+from segely
+where year(kifiz) = year(date())
+
+// kik kaptak tegnap segelyt | count(*) megszámolja
+SELECT count(*)
+from segely 
+where kifiz = date()-1
+
+// hany nappal ezelott fizettek ki 
+SELECT kifiz, date()-kifiz as ennyi_napja, datediff("d",kifiz,date()), kifiz+30,dateadd("d",kifiz,30)
+from segely
+where kifiz
+
+// ki az aki ebben a honapban kapott segelyt (idén)
+SELECT sum(osszeg)
+from segely 
+where month(date()) = month(kifiz) and year(date()) = year(kifiz)
+
+// idei 2023.04.05 bol 2023.04.01 
+SELECT date(), date()-day(date())+1, date()-day(date())
+
+// ki kapott 10ezer és 20ezer kozotti osszeget
+SELECT *
+from segely
+where osszeg > 10000 and osszeg < 20000
+
+// distinct: 
+	- ez csak egy előtag
+	- rendezés után kihagyja az ugyan olyanokat
+	- csak a különbözök jelennek meg
+	- nem lehet a count() on belul
+
+SELECT distinct osztaly
+from tanulo 
+
+// tobb lepeses lekerdezes [distinct-el]
+SELECT count(*)
+from lek10_seg
